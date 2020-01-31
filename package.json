@@ -1,0 +1,59 @@
+{
+  "name": "i18next-yaml-sync",
+  "description": "Synchronize or validate i18next yaml translation files",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "bin": {
+    "sync-i18n": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -p src",
+    "build:watch": "rimraf dist && tsc -w -p src",
+    "ci": "npm run lint",
+    "lint": "tslint src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pszalanski/i18next-yaml-sync.git"
+  },
+  "keywords": [
+    "i18next",
+    "yaml",
+    "sync",
+    "synchronize",
+    "plurals",
+    "pluralization",
+    "l10n",
+    "i18n",
+    "localization",
+    "internationalization"
+  ],
+  "author": "patryk.szalanski@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pszalanski/i18next-yaml-sync/issues"
+  },
+  "homepage": "https://github.com/pszalanski/i18next-yaml-sync#readme",
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/node": "^13.5.2",
+    "@types/yargs": "^15.0.2",
+    "@types/yamljs": "^0.2.30",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.8.0",
+    "rimraf": "^3.0.1",
+    "shelljs": "^0.8.3",
+    "ts-node": "^8.6.2",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "tslint-misc-rules": "^3.5.1",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "deep-object-diff": "^1.1.0",
+    "glob": "^7.1.6",
+    "yamljs": "^0.3.0",
+    "yargs": "^15.1.0"
+  }
+}
