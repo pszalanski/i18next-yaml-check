@@ -1,33 +1,57 @@
 import * as fs from 'fs';
 import {load as loadYaml} from 'yamljs';
-import * as util from 'util';
-import {detailedDiff} from 'deep-object-diff';
+import {diff} from 'deep-diff';
 
-function isEmpty(obj: object) {
-    return Object.keys(obj).length === 0;
+function cleanKeys(obj: object): object {
+    for (const [k, v] of Object.entries(obj)) {
+        if (typeof v === 'string') {
+            obj[k] = null;
+        } else if(typeof v === 'object') {
+            cleanKeys(v);
+        }
+    }
+    return obj;
+}
+
+function loadKeys(yamlFile: string): object {
+    return cleanKeys(loadYaml(yamlFile))
 }
 
 function allKeysMatch(baseDir: string, primaryLanguage: string,
                       languages: string[], namespaceFiles: string[]): boolean {
+    let translationsMatch = true;
+    const primaryTranslation = {};
+    namespaceFiles.forEach(ns => {
+        primaryTranslation[ns] = loadKeys(`${baseDir}/${primaryLanguage}/${ns}`);
+    });
+
     const translations = {};
-    languages.forEach(lang => {
+    languages.filter(l => l != primaryLanguage).forEach(lang => {
         translations[lang] = {};
         namespaceFiles.forEach(ns => {
-            translations[lang][ns] = loadYaml(`${baseDir}/${lang}/${ns}`);
+            translations[lang][ns] = loadKeys(`${baseDir}/${lang}/${ns}`);
         });
-        if (lang !== primaryLanguage) {
-            const diff = detailedDiff(translations[primaryLanguage], translations[lang]);
-            if (!isEmpty(diff['added']) || !isEmpty(diff['deleted'])) {
-                console.info('Found differences for', lang, util.inspect(diff));
-            } else {
-                console.info('Did not find any differences for', lang);
+        const differences = diff(primaryTranslation, translations[lang]);
+        if (differences) {
+            translationsMatch = false;
+            console.warn('### Found differences for', lang);
+            for (const d of differences) {
+                let msg: string;
+                if (d.kind === 'N') {
+                    msg = '  New in';
+                } else if (d.kind === 'D') {
+                    msg = '  Missing in';
+                }
+                console.warn(msg, d.path[0] + ':', d.path.slice(1).join('.'));
             }
+        } else {
+            console.info('Did not find any differences for', lang);
         }
     });
-    return false;
+    return translationsMatch;
 }
 
-export default function sync(options: { primary: any; basedir: any }): void {
+export default function sync(options: { primary: string; basedir: string }): void {
     console.log('Checking against', options.primary);
 
     const languages: string[] = [];

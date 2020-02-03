@@ -21,6 +21,6 @@ const {
     .argv;
 
 sync({
-    primary,
-    basedir
+    primary: primary as string,
+    basedir: basedir as string
 });
