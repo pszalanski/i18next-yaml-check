@@ -1,11 +1,11 @@
 {
-  "name": "i18next-yaml-sync",
-  "description": "Synchronize or validate i18next yaml translation files",
-  "version": "0.1.0",
+  "name": "i18next-yaml-check",
+  "description": "Validate i18next yaml translation files, including namespace support.",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
-    "sync-i18n": "dist/cli.js"
+    "check-i18n": "dist/cli.js"
   },
   "scripts": {
     "build": "rimraf dist && tsc -p src",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pszalanski/i18next-yaml-sync.git"
+    "url": "git+https://github.com/pszalanski/i18next-yaml-check.git"
   },
   "keywords": [
     "i18next",
@@ -32,9 +32,9 @@
   "author": "patryk.szalanski@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pszalanski/i18next-yaml-sync/issues"
+    "url": "https://github.com/pszalanski/i18next-yaml-check/issues"
   },
-  "homepage": "https://github.com/pszalanski/i18next-yaml-sync#readme",
+  "homepage": "https://github.com/pszalanski/i18next-yaml-check#readme",
   "devDependencies": {
     "@types/deep-diff": "^1.0.0",
     "@types/glob": "^7.1.1",
@@ -52,8 +52,6 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "deep-object-diff": "^1.1.0",
-    "glob": "^7.1.6",
     "yamljs": "^0.3.0",
     "yargs": "^15.1.0",
     "deep-diff": "^1.0.2"
